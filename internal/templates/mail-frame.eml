@@ -1,9 +1,10 @@
 MIME-version: 1.0
+Message-Id: {{ generateMsgId }}
 From: {{ .From }}
 Sender: {{ .From }}
-To: {{ serializeEmails .To }}
-{{ if .ReplyTo }}In-Reply-To: {{ formatReplyTo .ReplyTo }}{{ end }}
-{{ if .ThreadTopic }}Thread-Topic: {{ .ThreadTopic }}{{ end }}
+To: {{ serializeEmails .To }}{{ if .ReplyTo }}
+In-Reply-To: {{ formatReplyTo .ReplyTo }}{{ end }}{{ if .ThreadTopic }}
+Thread-Topic: {{ .ThreadTopic }}{{ end }}
 Subject: {{ .Subject }}
 Date: {{ .FormatDate }}
 Content-Type: text/html; charset="UTF-8"
