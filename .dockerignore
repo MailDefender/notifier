@@ -1,0 +1,8 @@
+.github/**
+.vscode/**
+Dockerfile
+.gitignore
+README.md
+.env*
+mock/**
+notifier

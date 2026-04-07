@@ -1,0 +1,42 @@
+name: CI Build
+
+on:
+  push:
+    branches:
+      - "*"  # Trigger on all branches
+  pull_request:
+    branches:
+      - "main"
+  workflow_call:
+    
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }} # Image name (ex: ghcr.io/<ton-org>/<ton-repo>)
+
+jobs:
+  tests:
+    name: Runs unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      - name: Get dependencies
+        run: go mod download
+
+      - name: Start Mailhog
+        run: docker compose up -d
+        working-directory: ./mock
+
+      - name: Unit tests
+        run: go test -v ./...
+
+      - name: Stop Mailhog
+        if: always()
+        run: docker compose down
+        working-directory: ./mock
